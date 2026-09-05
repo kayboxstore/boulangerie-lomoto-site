@@ -35,11 +35,6 @@
   const zoneProduits = document.getElementById("zone-produits");
   const totalBacsEl = document.getElementById("total-bacs");
 
-  // Ordre d'affichage voulu, indépendant de l'ordre alphabétique renvoyé par
-  // l'API (qui trierait "1.000" avant "500"). Un produit absent de cette
-  // liste (cas imprévu) est simplement ajouté à la suite, alphabétiquement.
-  const ORDRE_NOMS_PREFERE = ["Baguette 500 Fc", "Baguette 1.000 Fc", "Carré 1.500 Fc", "Carré 1.000 Fc"];
-
   // { produit: {id, nom, prixVente}, input: HTMLInputElement }[] — reconstruit
   // à chaque chargement des produits (au démarrage de la page).
   let champsProduits = [];
@@ -66,15 +61,12 @@
     recalculerTotal();
   }
 
+  // Trié par prix croissant — plus lisible que l'ordre alphabétique renvoyé
+  // par l'API (qui mettrait "1.000" avant "500"), et robuste : aucun nom de
+  // produit codé en dur ici, contrairement aux identifiants qui eux ne le
+  // sont jamais.
   function trierProduits(produits) {
-    return [...produits].sort((a, b) => {
-      const ia = ORDRE_NOMS_PREFERE.indexOf(a.nom);
-      const ib = ORDRE_NOMS_PREFERE.indexOf(b.nom);
-      if (ia === -1 && ib === -1) return a.nom.localeCompare(b.nom);
-      if (ia === -1) return 1;
-      if (ib === -1) return -1;
-      return ia - ib;
-    });
+    return [...produits].sort((a, b) => a.prixVente - b.prixVente || a.nom.localeCompare(b.nom));
   }
 
   function rendreChampsProduits(produits) {
