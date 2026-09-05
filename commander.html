@@ -61,36 +61,20 @@
 
         <div class="champ">
           <label>Bacs souhaités par produit</label>
-          <div class="grille-produits">
-            <div class="champ-produit">
-              <label for="bacs-baguette-500">Baguette — 500 Fc</label>
-              <input type="number" id="bacs-baguette-500" min="0" step="1" value="0" inputmode="numeric" />
-            </div>
-            <div class="champ-produit">
-              <label for="bacs-baguette-1000">Baguette — 1000 Fc</label>
-              <input type="number" id="bacs-baguette-1000" min="0" step="1" value="0" inputmode="numeric" />
-            </div>
-            <div class="champ-produit">
-              <label for="bacs-carre-1500">Carré — 1500 Fc</label>
-              <input type="number" id="bacs-carre-1500" min="0" step="1" value="0" inputmode="numeric" />
-            </div>
-            <div class="champ-produit">
-              <label for="bacs-carre-1000">Carré — 1000 Fc</label>
-              <input type="number" id="bacs-carre-1000" min="0" step="1" value="0" inputmode="numeric" />
-            </div>
+          <div class="grille-produits" id="zone-produits">
+            <p class="aide">Chargement des produits…</p>
           </div>
           <p class="total-bacs">Total : <strong id="total-bacs">0</strong> bac(s)</p>
         </div>
 
         <div class="champ">
-          <label for="date-souhaitee">Date souhaitée <span style="font-weight:400;">(facultatif)</span></label>
-          <input type="date" id="date-souhaitee" name="dateSouhaitee" />
+          <label for="date-souhaitee">Date souhaitée</label>
+          <input type="date" id="date-souhaitee" name="dateSouhaitee" required />
         </div>
 
         <div class="champ">
           <label for="note">Commentaire pour notre équipe <span style="font-weight:400;">(facultatif)</span></label>
-          <textarea id="note" name="note" maxlength="350" placeholder="Une précision supplémentaire…"></textarea>
-          <span class="aide">Le détail par produit est ajouté automatiquement à votre commentaire.</span>
+          <textarea id="note" name="note" maxlength="500" placeholder="Une précision pour notre équipe…"></textarea>
         </div>
 
         <button type="submit" class="bouton" id="bouton-demande" style="width:100%;">

@@ -11,6 +11,8 @@
     "Trop de tentatives. Merci de patienter quelques minutes avant de réessayer.";
   const MESSAGE_NON_ENREGISTRE =
     "Ce numéro n'est pas encore enregistré comme Dépositaire — contactez-nous pour en devenir un.";
+  const MESSAGE_PRODUITS_INDISPONIBLES =
+    "Impossible de charger la liste des produits pour l'instant. Merci de recharger la page.";
 
   const formIdentification = document.getElementById("formulaire-identification");
   const formDemande = document.getElementById("formulaire-demande");
@@ -30,39 +32,104 @@
   const boutonChangerNumero = document.getElementById("bouton-changer-numero");
   const boutonNouvelleDemande = document.getElementById("bouton-nouvelle-demande");
 
-  // Ordre volontairement fixe (demandé tel quel) : sert à la fois à l'affichage
-  // des 4 champs et à la composition du détail dans la note.
-  const PRODUITS = [
-    { id: "bacs-baguette-500", detailLabel: "Baguette 500Fc" },
-    { id: "bacs-baguette-1000", detailLabel: "Baguette 1000Fc" },
-    { id: "bacs-carre-1500", detailLabel: "Carré 1500Fc" },
-    { id: "bacs-carre-1000", detailLabel: "Carré 1000Fc" },
-  ];
-  const champsProduits = PRODUITS.map((p) => document.getElementById(p.id));
+  const zoneProduits = document.getElementById("zone-produits");
   const totalBacsEl = document.getElementById("total-bacs");
-  const LONGUEUR_MAX_NOTE = 500;
 
-  function lireQuantite(champ) {
-    const n = Number.parseInt(champ.value, 10);
+  // Ordre d'affichage voulu, indépendant de l'ordre alphabétique renvoyé par
+  // l'API (qui trierait "1.000" avant "500"). Un produit absent de cette
+  // liste (cas imprévu) est simplement ajouté à la suite, alphabétiquement.
+  const ORDRE_NOMS_PREFERE = ["Baguette 500 Fc", "Baguette 1.000 Fc", "Carré 1.500 Fc", "Carré 1.000 Fc"];
+
+  // { produit: {id, nom, prixVente}, input: HTMLInputElement }[] — reconstruit
+  // à chaque chargement des produits (au démarrage de la page).
+  let champsProduits = [];
+
+  function lireQuantite(input) {
+    const n = Number.parseInt(input.value, 10);
     return Number.isFinite(n) && n > 0 ? n : 0;
   }
 
   function recalculerTotal() {
-    const total = champsProduits.reduce((somme, champ) => somme + lireQuantite(champ), 0);
+    const total = champsProduits.reduce((somme, cp) => somme + lireQuantite(cp.input), 0);
     totalBacsEl.textContent = String(total);
     return total;
   }
 
-  function composerDetailProduits() {
-    const parties = PRODUITS.map((produit, i) => {
-      const quantite = lireQuantite(champsProduits[i]);
-      return quantite > 0 ? `${quantite} bac(s) ${produit.detailLabel}` : null;
-    }).filter((partie) => partie !== null);
-    return parties.length > 0 ? `Détail : ${parties.join(", ")}.` : "";
+  function composerLignes() {
+    return champsProduits
+      .map((cp) => ({ produitId: cp.produit.id, quantite: lireQuantite(cp.input) }))
+      .filter((ligne) => ligne.quantite > 0);
   }
 
-  champsProduits.forEach((champ) => champ.addEventListener("input", recalculerTotal));
-  recalculerTotal();
+  function reinitialiserChampsProduits() {
+    for (const cp of champsProduits) cp.input.value = "0";
+    recalculerTotal();
+  }
+
+  function trierProduits(produits) {
+    return [...produits].sort((a, b) => {
+      const ia = ORDRE_NOMS_PREFERE.indexOf(a.nom);
+      const ib = ORDRE_NOMS_PREFERE.indexOf(b.nom);
+      if (ia === -1 && ib === -1) return a.nom.localeCompare(b.nom);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+  }
+
+  function rendreChampsProduits(produits) {
+    zoneProduits.innerHTML = "";
+    champsProduits = [];
+
+    if (produits.length === 0) {
+      const p = document.createElement("p");
+      p.className = "message message-erreur";
+      p.style.margin = "0";
+      p.textContent = MESSAGE_PRODUITS_INDISPONIBLES;
+      zoneProduits.appendChild(p);
+      return;
+    }
+
+    for (const produit of produits) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "champ-produit";
+
+      const inputId = `bacs-${produit.id}`;
+      const label = document.createElement("label");
+      label.setAttribute("for", inputId);
+      label.textContent = produit.nom;
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.id = inputId;
+      input.min = "0";
+      input.step = "1";
+      input.value = "0";
+      input.inputMode = "numeric";
+      input.addEventListener("input", recalculerTotal);
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      zoneProduits.appendChild(wrapper);
+      champsProduits.push({ produit, input });
+    }
+
+    recalculerTotal();
+  }
+
+  async function chargerProduits() {
+    try {
+      const reponse = await fetch(`${API_BASE}/produits`);
+      if (!reponse.ok) throw new Error("échec chargement produits");
+      const corps = await reponse.json();
+      const produits = Array.isArray(corps.produits) ? corps.produits : [];
+      rendreChampsProduits(trierProduits(produits));
+    } catch {
+      rendreChampsProduits([]);
+    }
+  }
+
+  chargerProduits();
 
   // Téléphone déjà confirmé par /identifier — jamais un clientId : l'API le
   // revérifie de toute façon à la soumission, donc autant garder la même
@@ -165,27 +232,29 @@
     evenement.preventDefault();
     viderMessage(zoneMessageDemande);
 
-    const quantiteBacs = recalculerTotal();
-    if (quantiteBacs < 1) {
+    if (champsProduits.length === 0) {
+      afficherMessage(zoneMessageDemande, MESSAGE_PRODUITS_INDISPONIBLES, "erreur");
+      return;
+    }
+
+    const lignes = composerLignes();
+    if (lignes.length === 0) {
       afficherMessage(zoneMessageDemande, "Merci d'indiquer au moins 1 bac au total, sur l'un des produits.", "erreur");
       return;
     }
 
-    // Le détail auto-généré vient toujours en premier, le commentaire libre du
-    // client (s'il y en a un) est ajouté à la suite — jamais l'un à la place
-    // de l'autre.
-    const detail = composerDetailProduits();
-    const commentaireLibre = champNote.value.trim();
-    let note = detail;
-    if (commentaireLibre) note = note ? `${note}\n${commentaireLibre}` : commentaireLibre;
-    if (note.length > LONGUEUR_MAX_NOTE) note = note.slice(0, LONGUEUR_MAX_NOTE);
+    if (!champDateSouhaitee.value) {
+      afficherMessage(zoneMessageDemande, "Merci d'indiquer une date souhaitée.", "erreur");
+      return;
+    }
 
     const corpsRequete = {
       telephone: telephoneConfirme,
-      quantiteBacs,
+      dateSouhaitee: champDateSouhaitee.value,
+      lignes,
     };
-    if (champDateSouhaitee.value) corpsRequete.dateSouhaitee = champDateSouhaitee.value;
-    if (note) corpsRequete.note = note;
+    const commentaireLibre = champNote.value.trim();
+    if (commentaireLibre) corpsRequete.note = commentaireLibre;
 
     basculerChargement(boutonDemande, true, "Envoyer ma demande");
     try {
@@ -211,7 +280,7 @@
       }
 
       formDemande.reset();
-      recalculerTotal();
+      reinitialiserChampsProduits();
       afficherEtapeConfirmation();
     } catch {
       afficherMessage(zoneMessageDemande, MESSAGE_ERREUR_GENERIQUE, "erreur");
@@ -224,7 +293,7 @@
     telephoneConfirme = "";
     champTelephone.value = "";
     formDemande.reset();
-    recalculerTotal();
+    reinitialiserChampsProduits();
     afficherEtapeIdentification();
     champTelephone.focus();
   });
@@ -233,7 +302,7 @@
     telephoneConfirme = "";
     formIdentification.reset();
     formDemande.reset();
-    recalculerTotal();
+    reinitialiserChampsProduits();
     afficherEtapeIdentification();
   });
 })();
