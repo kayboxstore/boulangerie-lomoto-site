@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commander — Boulangerie Lomoto</title>
+  <meta name="description" content="Dépositaires et Mamans : passez votre demande de commande de bacs auprès de la Boulangerie Lomoto." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="entete">
+    <div class="entete-barre">
+      <a class="logo" href="index.html">Boulangerie <span>Lomoto</span></a>
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="commander.html" class="actif">Commander</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="heros">
+    <div class="conteneur">
+      <h1>Passer une demande de commande</h1>
+      <p>Réservé aux Dépositaires et Mamans déjà enregistrés auprès de la Boulangerie Lomoto.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+
+      <!-- Étape 1 : identification par téléphone -->
+      <form id="formulaire-identification" class="formulaire-carte" novalidate>
+        <div id="zone-message-identification"></div>
+
+        <div class="champ">
+          <label for="telephone">Votre numéro de téléphone</label>
+          <input
+            type="tel"
+            id="telephone"
+            name="telephone"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="+243 8xx xxx xxx"
+            required
+          />
+          <span class="aide">Le même numéro que celui enregistré auprès de la boulangerie.</span>
+        </div>
+
+        <button type="submit" class="bouton" id="bouton-identification" style="width:100%;">
+          Continuer
+        </button>
+      </form>
+
+      <!-- Étape 2 : formulaire de demande (masqué au départ) -->
+      <form id="formulaire-demande" class="formulaire-carte" novalidate hidden>
+        <div id="zone-message-demande"></div>
+
+        <p class="salutation">Bonjour <span id="nom-client"></span></p>
+        <span class="qualite-badge" id="qualite-client"></span>
+
+        <div class="champ">
+          <label for="quantite-bacs">Nombre de bacs souhaités</label>
+          <input type="number" id="quantite-bacs" name="quantiteBacs" min="1" step="1" required />
+        </div>
+
+        <div class="champ">
+          <label for="date-souhaitee">Date souhaitée <span style="font-weight:400;">(facultatif)</span></label>
+          <input type="date" id="date-souhaitee" name="dateSouhaitee" />
+        </div>
+
+        <div class="champ">
+          <label for="note">Note <span style="font-weight:400;">(facultatif)</span></label>
+          <textarea id="note" name="note" maxlength="500" placeholder="Une précision pour notre équipe…"></textarea>
+        </div>
+
+        <button type="submit" class="bouton" id="bouton-demande" style="width:100%;">
+          Envoyer ma demande
+        </button>
+        <button type="button" class="lien-discret" id="bouton-changer-numero">
+          Ce n'est pas mon numéro / changer
+        </button>
+      </form>
+
+      <!-- Étape 3 : confirmation (masquée au départ) -->
+      <div id="zone-confirmation" class="formulaire-carte" hidden>
+        <div class="message message-succes">
+          <strong>Votre demande a été transmise.</strong>
+          <p style="margin:8px 0 0;">
+            Notre équipe vous recontactera pour la confirmer. Ceci n'est pas
+            encore une commande ferme — vous recevrez une confirmation avant
+            toute livraison.
+          </p>
+        </div>
+        <button type="button" class="bouton" id="bouton-nouvelle-demande" style="width:100%;">
+          Passer une nouvelle demande
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <p>&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="js/commander.js"></script>
+  <script>
+    document.getElementById("annee").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

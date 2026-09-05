@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boulangerie Lomoto</title>
+  <meta name="description" content="Boulangerie Lomoto — pain et viennoiseries fraîches à Kinshasa. Dépositaires et Mamans, commandez vos bacs en ligne." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="entete">
+    <div class="entete-barre">
+      <a class="logo" href="index.html">Boulangerie <span>Lomoto</span></a>
+      <nav class="nav">
+        <a href="index.html" class="actif">Accueil</a>
+        <a href="commander.html">Commander</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="heros">
+    <div class="conteneur">
+      <h1>Du pain frais, chaque jour, pour tout Kinshasa</h1>
+      <p>
+        La Boulangerie Lomoto prépare pain et viennoiseries avec des
+        ingrédients de qualité, livrés chaque jour à nos Dépositaires et
+        Mamans partenaires.
+      </p>
+      <a class="bouton" href="commander.html">Je suis Dépositaire / Maman — Commander</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+      <h2>Qui sommes-nous</h2>
+      <p class="section-intro">
+        Une boulangerie locale qui approvisionne un réseau de dépositaires et
+        de mamans revendeuses partout dans la ville. Fraîcheur, régularité et
+        proximité sont au cœur de notre travail quotidien.
+      </p>
+      <div class="grille">
+        <div class="carte">
+          <h3>Fraîcheur</h3>
+          <p>Une production quotidienne pour garantir un pain toujours frais chez nos partenaires.</p>
+        </div>
+        <div class="carte">
+          <h3>Réseau de confiance</h3>
+          <p>Des Dépositaires et Mamans fidèles, livrés selon un cycle régulier et fiable.</p>
+        </div>
+        <div class="carte">
+          <h3>Proximité</h3>
+          <p>Une équipe joignable directement pour toute question sur vos commandes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="conteneur">
+      <h2>Horaires &amp; contact</h2>
+      <div class="grille">
+        <div class="carte">
+          <h3>Horaires</h3>
+          <p>Du lundi au samedi, 6h00 – 18h00.</p>
+        </div>
+        <div class="carte">
+          <h3>Nous contacter</h3>
+          <p>
+            Téléphone : <a href="tel:+243810000000">+243 810 000 000</a><br />
+            Email : <a href="mailto:contact@boulangerie-lomoto.com">contact@boulangerie-lomoto.com</a>
+          </p>
+        </div>
+        <div class="carte">
+          <h3>Adresse</h3>
+          <p>Kinshasa, République démocratique du Congo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur" style="text-align:center;">
+      <h2>Vous êtes déjà Dépositaire ou Maman ?</h2>
+      <p class="section-intro">
+        Passez votre demande de commande de bacs directement depuis ce site —
+        notre équipe la traite ensuite avec vous.
+      </p>
+      <a class="bouton" href="commander.html">Passer une demande de commande</a>
+    </div>
+  </section>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <p>&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("annee").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
