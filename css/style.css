@@ -219,6 +219,53 @@ a {
   font-weight: 400;
 }
 
+.grille-produits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.champ-produit label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+  color: var(--brun-fonce);
+}
+
+.champ-produit input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #d9c7ae;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--creme);
+  color: var(--texte);
+}
+
+.champ-produit input:focus {
+  outline: 2px solid var(--or);
+  outline-offset: 1px;
+}
+
+.total-bacs {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  color: var(--brun-fonce);
+}
+
+.total-bacs strong {
+  font-size: 1.15rem;
+}
+
+@media (max-width: 480px) {
+  .grille-produits {
+    grid-template-columns: 1fr;
+  }
+}
+
 .champ input,
 .champ textarea {
   width: 100%;

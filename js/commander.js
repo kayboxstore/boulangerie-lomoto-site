@@ -24,12 +24,45 @@
 
   const nomClientEl = document.getElementById("nom-client");
   const qualiteClientEl = document.getElementById("qualite-client");
-  const champQuantiteBacs = document.getElementById("quantite-bacs");
   const champDateSouhaitee = document.getElementById("date-souhaitee");
   const champNote = document.getElementById("note");
   const boutonDemande = document.getElementById("bouton-demande");
   const boutonChangerNumero = document.getElementById("bouton-changer-numero");
   const boutonNouvelleDemande = document.getElementById("bouton-nouvelle-demande");
+
+  // Ordre volontairement fixe (demandé tel quel) : sert à la fois à l'affichage
+  // des 4 champs et à la composition du détail dans la note.
+  const PRODUITS = [
+    { id: "bacs-baguette-500", detailLabel: "Baguette 500Fc" },
+    { id: "bacs-baguette-1000", detailLabel: "Baguette 1000Fc" },
+    { id: "bacs-carre-1500", detailLabel: "Carré 1500Fc" },
+    { id: "bacs-carre-1000", detailLabel: "Carré 1000Fc" },
+  ];
+  const champsProduits = PRODUITS.map((p) => document.getElementById(p.id));
+  const totalBacsEl = document.getElementById("total-bacs");
+  const LONGUEUR_MAX_NOTE = 500;
+
+  function lireQuantite(champ) {
+    const n = Number.parseInt(champ.value, 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function recalculerTotal() {
+    const total = champsProduits.reduce((somme, champ) => somme + lireQuantite(champ), 0);
+    totalBacsEl.textContent = String(total);
+    return total;
+  }
+
+  function composerDetailProduits() {
+    const parties = PRODUITS.map((produit, i) => {
+      const quantite = lireQuantite(champsProduits[i]);
+      return quantite > 0 ? `${quantite} bac(s) ${produit.detailLabel}` : null;
+    }).filter((partie) => partie !== null);
+    return parties.length > 0 ? `Détail : ${parties.join(", ")}.` : "";
+  }
+
+  champsProduits.forEach((champ) => champ.addEventListener("input", recalculerTotal));
+  recalculerTotal();
 
   // Téléphone déjà confirmé par /identifier — jamais un clientId : l'API le
   // revérifie de toute façon à la soumission, donc autant garder la même
@@ -132,18 +165,27 @@
     evenement.preventDefault();
     viderMessage(zoneMessageDemande);
 
-    const quantiteBacs = Number.parseInt(champQuantiteBacs.value, 10);
-    if (!Number.isFinite(quantiteBacs) || quantiteBacs < 1) {
-      afficherMessage(zoneMessageDemande, "Merci d'indiquer un nombre de bacs valide (au moins 1).", "erreur");
+    const quantiteBacs = recalculerTotal();
+    if (quantiteBacs < 1) {
+      afficherMessage(zoneMessageDemande, "Merci d'indiquer au moins 1 bac au total, sur l'un des produits.", "erreur");
       return;
     }
+
+    // Le détail auto-généré vient toujours en premier, le commentaire libre du
+    // client (s'il y en a un) est ajouté à la suite — jamais l'un à la place
+    // de l'autre.
+    const detail = composerDetailProduits();
+    const commentaireLibre = champNote.value.trim();
+    let note = detail;
+    if (commentaireLibre) note = note ? `${note}\n${commentaireLibre}` : commentaireLibre;
+    if (note.length > LONGUEUR_MAX_NOTE) note = note.slice(0, LONGUEUR_MAX_NOTE);
 
     const corpsRequete = {
       telephone: telephoneConfirme,
       quantiteBacs,
     };
     if (champDateSouhaitee.value) corpsRequete.dateSouhaitee = champDateSouhaitee.value;
-    if (champNote.value.trim()) corpsRequete.note = champNote.value.trim();
+    if (note) corpsRequete.note = note;
 
     basculerChargement(boutonDemande, true, "Envoyer ma demande");
     try {
@@ -169,6 +211,7 @@
       }
 
       formDemande.reset();
+      recalculerTotal();
       afficherEtapeConfirmation();
     } catch {
       afficherMessage(zoneMessageDemande, MESSAGE_ERREUR_GENERIQUE, "erreur");
@@ -181,6 +224,7 @@
     telephoneConfirme = "";
     champTelephone.value = "";
     formDemande.reset();
+    recalculerTotal();
     afficherEtapeIdentification();
     champTelephone.focus();
   });
@@ -189,6 +233,7 @@
     telephoneConfirme = "";
     formIdentification.reset();
     formDemande.reset();
+    recalculerTotal();
     afficherEtapeIdentification();
   });
 })();
