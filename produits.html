@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nos produits — Boulangerie Lomoto</title>
+  <meta name="description" content="Pain et viennoiseries de la Boulangerie Lomoto — préparés chaque jour, livrés frais à nos Dépositaires et Mamans partenaires." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="entete">
+    <div class="entete-barre">
+      <a class="logo" href="index.html">Boulangerie <span>Lomoto</span></a>
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="produits.html" class="actif">Produits</a>
+        <a href="commander.html">Commander</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="heros heros-duo">
+    <div class="conteneur heros-duo-inner">
+      <div class="heros-texte">
+        <h1>Du pain préparé chaque jour, prêt pour vos bacs</h1>
+        <p>
+          Pains et petits pains sortent de notre production quotidienne et
+          sont conditionnés en bacs pour nos Dépositaires et Mamans
+          partenaires, prêts à être livrés frais.
+        </p>
+        <a class="bouton" href="commander.html">Je suis Dépositaire / Maman — Commander</a>
+      </div>
+      <div class="heros-image">
+        <img
+          src="images/produits/pains-assortiment-hero.jpg"
+          alt="Assortiment de pains fraîchement cuits, rangés dans un bac de livraison"
+          width="700" height="1244"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+      <h2>Ce que nous produisons</h2>
+      <p class="section-intro">
+        Une gamme simple et régulière de pains et petits pains, pensée pour
+        un réseau de revente — mêmes produits, même qualité, chaque jour.
+      </p>
+
+      <div class="galerie">
+        <div class="carte-galerie">
+          <img
+            src="images/produits/petits-pains-sandwich.jpg"
+            alt="Petits pains sandwich, qualité artisanale, rangés dans un bac"
+          />
+          <p>Petits pains sandwich, qualité artisanale.</p>
+        </div>
+        <div class="carte-galerie">
+          <img
+            src="images/produits/baguettes-fraiches.jpg"
+            alt="Baguettes fraîches rangées dans un bac de livraison"
+          />
+          <p>Baguettes fraîches du jour.</p>
+        </div>
+        <div class="carte-galerie">
+          <img
+            src="images/produits/etal-pains-varies.jpg"
+            alt="Bac de pains variés prêts à la vente"
+          />
+          <p>Pains variés, prêts pour nos revendeurs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="conteneur" style="text-align:center;">
+      <h2>Vous êtes déjà Dépositaire ou Maman ?</h2>
+      <p class="section-intro">
+        Passez votre demande de commande de bacs directement depuis ce site —
+        notre équipe la traite ensuite avec vous.
+      </p>
+      <a class="bouton" href="commander.html">Passer une demande de commande</a>
+    </div>
+  </section>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <p>&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("annee").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

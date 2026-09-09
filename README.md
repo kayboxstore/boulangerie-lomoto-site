@@ -6,8 +6,18 @@ Site vitrine public de la Boulangerie Lomoto — HTML/CSS/JS statique, sans
 ## Pages
 
 - `index.html` — accueil (présentation, horaires, contact).
+- `produits.html` — présentation des produits (photos), sans lien vers une
+  API — contenu statique.
 - `commander.html` — formulaire de demande de commande pour les
   Dépositaires/Mamans déjà enregistrés.
+
+## Images
+
+`images/produits/` contient des photos de pain déjà en bac (production/
+livraison), utilisées sur `produits.html` (hero + galerie) et en
+illustration sur `index.html`. Ce sont les seules photos disponibles à ce
+jour — aucune image de four ou de production en cours ; une éventuelle
+section « notre savoir-faire » attend de vraies photos avant d'être créée.
 
 ## API consommée
 
