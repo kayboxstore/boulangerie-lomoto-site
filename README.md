@@ -10,6 +10,9 @@ Site vitrine public de la Boulangerie Lomoto — HTML/CSS/JS statique, sans
   API — contenu statique.
 - `commander.html` — formulaire de demande de commande pour les
   Dépositaires/Mamans déjà enregistrés.
+- `devenir-depositaire.html` — formulaire d'inscription pour devenir
+  Dépositaire (nom, téléphone, adresse), pour quelqu'un qui n'est pas
+  encore reconnu par la boulangerie.
 
 ## Images
 
@@ -21,16 +24,20 @@ section « notre savoir-faire » attend de vraies photos avant d'être créée.
 
 ## API consommée
 
-`commander.html` appelle exclusivement les routes publiques de l'app de
-gestion (dépôt `kayboxstore/Boulangerie`), déjà ouvertes en CORS pour ce
-chemin :
+`commander.html` et `devenir-depositaire.html` appellent exclusivement les
+routes publiques de l'app de gestion (dépôt `kayboxstore/Boulangerie`),
+déjà ouvertes en CORS pour ce chemin :
 
 - `POST https://gestion.boulangerie-lomoto.com/api/public/demandes-commande/identifier`
 - `POST https://gestion.boulangerie-lomoto.com/api/public/demandes-commande`
+- `POST https://gestion.boulangerie-lomoto.com/api/public/inscription-depositaire`
 
-Ces routes sont limitées à 10 requêtes / 15 minutes par IP. Le formulaire
-n'envoie jamais de `clientId` : seul le numéro de téléphone est transmis,
-revérifié côté serveur à chaque étape.
+Ces routes sont limitées à 10 requêtes / 15 minutes par IP. Le formulaire de
+commande n'envoie jamais de `clientId` : seul le numéro de téléphone est
+transmis, revérifié côté serveur à chaque étape. Le formulaire d'inscription
+ne crée PAS de compte actif — la demande reste en attente jusqu'à
+confirmation manuelle par l'équipe (module Commandes de l'app de gestion),
+qui choisit la zone de dépôt à ce moment-là.
 
 Le contenu de la page d'accueil (présentation, horaires, réseaux sociaux)
 est à ajuster directement dans `index.html` selon les besoins réels de la

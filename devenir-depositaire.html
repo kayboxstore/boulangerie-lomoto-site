@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devenir Dépositaire — Boulangerie Lomoto</title>
+  <meta name="description" content="Rejoignez le réseau de Dépositaires de la Boulangerie Lomoto — envoyez votre demande d'inscription, notre équipe vous recontacte pour la confirmer." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="entete">
+    <div class="entete-barre">
+      <a class="logo" href="index.html">Boulangerie <span>Lomoto</span></a>
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="commander.html">Commander</a>
+        <a href="devenir-depositaire.html" class="actif">Devenir Dépositaire</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="heros">
+    <div class="conteneur">
+      <h1>Devenir Dépositaire</h1>
+      <p>
+        Rejoignez notre réseau de revendeurs et recevez du pain frais chaque
+        jour. Envoyez votre demande ci-dessous — notre équipe vous
+        recontacte pour la confirmer.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+
+      <!-- Formulaire de demande d'inscription -->
+      <form id="formulaire-inscription" class="formulaire-carte" novalidate>
+        <div id="zone-message-inscription"></div>
+
+        <div class="champ">
+          <label for="nom">Votre nom</label>
+          <input
+            type="text"
+            id="nom"
+            name="nom"
+            autocomplete="name"
+            maxlength="200"
+            placeholder="Nom complet"
+            required
+          />
+        </div>
+
+        <div class="champ">
+          <label for="telephone">Votre numéro de téléphone</label>
+          <input
+            type="tel"
+            id="telephone"
+            name="telephone"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="+243 8xx xxx xxx"
+            required
+          />
+        </div>
+
+        <div class="champ">
+          <label for="adresse">Votre adresse</label>
+          <textarea
+            id="adresse"
+            name="adresse"
+            maxlength="500"
+            placeholder="Quartier, avenue, repère..."
+            required
+          ></textarea>
+          <span class="aide">500 caractères maximum.</span>
+        </div>
+
+        <button type="submit" class="bouton" id="bouton-inscription" style="width:100%;">
+          Envoyer ma demande
+        </button>
+      </form>
+
+      <!-- Confirmation (masquée au départ) -->
+      <div id="zone-confirmation" class="formulaire-carte" hidden>
+        <div class="message message-succes">
+          <strong>Votre demande a été transmise.</strong>
+          <p style="margin:8px 0 0;">
+            Ceci n'est pas encore un compte actif — notre équipe vous
+            recontactera pour la confirmer avant que vous puissiez passer
+            des commandes.
+          </p>
+        </div>
+        <button type="button" class="bouton" id="bouton-nouvelle-inscription" style="width:100%;">
+          Envoyer une nouvelle demande
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <p>&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="js/devenir-depositaire.js"></script>
+  <script>
+    document.getElementById("annee").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
