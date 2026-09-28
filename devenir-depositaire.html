@@ -6,17 +6,35 @@
   <title>Devenir Dépositaire — Boulangerie Lomoto</title>
   <meta name="description" content="Rejoignez le réseau de Dépositaires de la Boulangerie Lomoto — envoyez votre demande d'inscription, notre équipe vous recontacte pour la confirmer." />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="js/site.js" defer></script>
 </head>
 <body>
 
   <header class="entete">
     <div class="entete-barre">
-      <a class="logo" href="index.html">Boulangerie <span>Lomoto</span></a>
-      <nav class="nav">
+      <a class="marque" href="index.html">
+        <img
+          class="marque-logo"
+          src="images/logo/logo-192.webp"
+          srcset="images/logo/logo-96.webp 96w, images/logo/logo-192.webp 192w, images/logo/logo-480.webp 480w"
+          sizes="(max-width: 600px) 52px, 64px"
+          width="64" height="64"
+          alt="Logo Boulangerie Lomoto"
+        />
+        <span class="marque-texte">
+          <span class="marque-suffixe">Boulangerie</span>
+          <span class="marque-nom">Lomoto</span>
+        </span>
+      </a>
+      <button type="button" class="bouton-menu" id="bouton-menu" aria-expanded="false" aria-controls="nav-principale" hidden>
+        <span class="bouton-menu-icone" aria-hidden="true"></span>
+        <span class="assistance-visuelle">Menu</span>
+      </button>
+      <nav class="nav" id="nav-principale">
         <a href="index.html">Accueil</a>
         <a href="produits.html">Produits</a>
         <a href="commander.html">Commander</a>
-        <a href="devenir-depositaire.html" class="actif">Devenir Dépositaire</a>
+        <a href="devenir-depositaire.html" class="actif" aria-current="page">Devenir Dépositaire</a>
       </nav>
     </div>
   </header>
@@ -152,14 +170,27 @@
   </section>
 
   <footer class="pied">
-    <div class="conteneur">
-      <p>&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
+    <div class="conteneur pied-contenu">
+      <div class="pied-logo">
+        <img
+          src="images/logo/logo-96.webp"
+          srcset="images/logo/logo-96.webp 96w, images/logo/logo-192.webp 192w"
+          sizes="(max-width: 600px) 108px, 96px"
+          width="96" height="96"
+          alt="Logo Boulangerie Lomoto"
+        />
+      </div>
+      <nav class="pied-liens" aria-label="Pied de page">
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="commander.html">Commander</a>
+        <a href="devenir-depositaire.html">Devenir Dépositaire</a>
+      </nav>
+      <p class="pied-devise">Pain Lia o Tonda</p>
+      <p class="pied-copyright">&copy; <span id="annee"></span> Boulangerie Lomoto. Tous droits réservés.</p>
     </div>
   </footer>
 
   <script src="js/devenir-depositaire.js"></script>
-  <script>
-    document.getElementById("annee").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
