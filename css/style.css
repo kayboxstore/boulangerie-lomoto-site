@@ -1,20 +1,72 @@
 /* Boulangerie Lomoto — site vitrine
-   Feuille de style partagée, aucune dépendance externe. */
+   Feuille de style partagée, aucune dépendance externe.
+   Polices hébergées localement (voir fonts/), aucun appel à Google Fonts
+   à l'exécution. */
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../fonts/barlow-condensed-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../fonts/barlow-condensed-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/lora-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/lora-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/lora-medium-italic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
-  --brun-fonce: #3b2418;
-  --brun: #6b4226;
-  --brun-clair: #a9744f;
-  --creme: #fbf3e7;
-  --creme-fonce: #f1e2cb;
-  --or: #c98a3a;
-  --texte: #2c1d13;
-  --texte-doux: #6b5744;
+  /* Fonds sombres, titres, texte principal */
+  --bleu-nuit: #0A1A29;
+  /* Texte secondaire */
+  --bleu-encre: #34424F;
+  /* Boutons et accents */
+  --or: #E39C56;
+  /* Liens et petits textes d'accent sur crème */
+  --or-fonce: #9A5A1C;
+  /* Fond de page */
+  --creme: #FAF3E5;
+  /* Sections alternées */
+  --creme-fonce: #F0E4CC;
+  /* Bordures */
+  --filet: #E6D9BF;
+
   --blanc: #ffffff;
   --succes: #2f6b3f;
   --erreur: #a13a2f;
   --rayon: 12px;
-  --ombre: 0 4px 16px rgba(59, 36, 24, 0.12);
+  --ombre: 0 4px 16px rgba(10, 26, 41, 0.12);
+
+  --police-titres: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --police-texte: "Lora", Georgia, "Times New Roman", serif;
 }
 
 * {
@@ -27,10 +79,17 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: var(--texte);
+  font-family: var(--police-texte);
+  font-size: 19px;
+  color: var(--bleu-nuit);
   background: var(--creme);
   line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 17px;
+  }
 }
 
 img {
@@ -38,7 +97,46 @@ img {
 }
 
 a {
-  color: var(--brun);
+  color: var(--or-fonce);
+}
+
+/* Titres — Barlow Condensed, majuscules, condensé */
+h1,
+h2 {
+  font-family: var(--police-titres);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: 0.025em;
+  margin: 0;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 36px;
+}
+
+@media (min-width: 601px) {
+  h1 {
+    font-size: 68px;
+  }
+
+  h2 {
+    font-size: 48px;
+  }
+}
+
+/* Contour de focus clavier, net et cohérent, sur tous les éléments interactifs */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--or);
+  outline-offset: 2px;
 }
 
 .conteneur {
@@ -49,7 +147,7 @@ a {
 
 /* En-tête */
 .entete {
-  background: var(--brun-fonce);
+  background: var(--bleu-nuit);
   color: var(--creme);
   position: sticky;
   top: 0;
@@ -84,10 +182,17 @@ a {
 }
 
 .nav a {
+  font-family: var(--police-titres);
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--creme);
   text-decoration: none;
-  font-weight: 500;
   opacity: 0.9;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .nav a:hover,
@@ -99,41 +204,44 @@ a {
 
 /* Héros */
 .heros {
-  background: linear-gradient(160deg, var(--brun) 0%, var(--brun-fonce) 100%);
+  background: linear-gradient(160deg, var(--bleu-encre) 0%, var(--bleu-nuit) 100%);
   color: var(--creme);
   padding: 64px 20px;
   text-align: center;
 }
 
 .heros h1 {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
   margin: 0 0 12px;
 }
 
 .heros p {
-  font-size: 1.1rem;
   color: var(--creme-fonce);
   max-width: 560px;
   margin: 0 auto 28px;
 }
 
 .bouton {
-  display: inline-block;
-  background: var(--or);
-  color: var(--brun-fonce);
+  font-family: var(--police-titres);
   font-weight: 700;
-  padding: 14px 32px;
+  font-size: 20px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  background: var(--or);
+  color: var(--bleu-nuit);
+  padding: 0 32px;
   border-radius: var(--rayon);
   text-decoration: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .bouton:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(201, 138, 58, 0.4);
+  box-shadow: 0 6px 18px rgba(227, 156, 86, 0.4);
 }
 
 .bouton:disabled {
@@ -189,15 +297,14 @@ a {
 }
 
 .section h2 {
-  font-size: 1.6rem;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
   margin-bottom: 8px;
   text-align: center;
 }
 
 .section-intro {
   text-align: center;
-  color: var(--texte-doux);
+  color: var(--bleu-encre);
   max-width: 600px;
   margin: 0 auto 36px;
 }
@@ -217,7 +324,7 @@ a {
 
 .carte h3 {
   margin-top: 0;
-  color: var(--brun);
+  color: var(--bleu-encre);
 }
 
 .section-alt {
@@ -293,7 +400,7 @@ a {
 .carte-galerie p {
   margin: 0;
   padding: 14px 18px;
-  color: var(--texte-doux);
+  color: var(--bleu-encre);
   font-size: 0.92rem;
 }
 
@@ -317,7 +424,7 @@ a {
   cursor: pointer;
   padding: 16px 0;
   font-weight: 600;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
   list-style: none;
   display: flex;
   align-items: center;
@@ -344,7 +451,7 @@ a {
 .faq-item p {
   margin: 0;
   padding: 0 0 18px;
-  color: var(--texte-doux);
+  color: var(--bleu-encre);
 }
 
 /* Formulaire */
@@ -365,13 +472,13 @@ a {
   display: block;
   font-weight: 600;
   margin-bottom: 6px;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
 }
 
 .champ .aide {
   display: block;
   font-size: 0.85rem;
-  color: var(--texte-doux);
+  color: var(--bleu-encre);
   margin-top: 4px;
   font-weight: 400;
 }
@@ -388,29 +495,24 @@ a {
   font-weight: 500;
   font-size: 0.88rem;
   margin-bottom: 4px;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
 }
 
 .champ-produit input {
   width: 100%;
   padding: 9px 12px;
-  border: 1px solid #d9c7ae;
+  border: 1px solid var(--filet);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   background: var(--creme);
-  color: var(--texte);
-}
-
-.champ-produit input:focus {
-  outline: 2px solid var(--or);
-  outline-offset: 1px;
+  color: var(--bleu-nuit);
 }
 
 .total-bacs {
   margin: 14px 0 0;
   font-size: 0.95rem;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
 }
 
 .total-bacs strong {
@@ -427,18 +529,12 @@ a {
 .champ textarea {
   width: 100%;
   padding: 11px 14px;
-  border: 1px solid #d9c7ae;
+  border: 1px solid var(--filet);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   background: var(--creme);
-  color: var(--texte);
-}
-
-.champ input:focus,
-.champ textarea:focus {
-  outline: 2px solid var(--or);
-  outline-offset: 1px;
+  color: var(--bleu-nuit);
 }
 
 .champ textarea {
@@ -467,21 +563,21 @@ a {
 
 .message-info {
   background: #f1e9db;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
   border: 1px solid #e2cea9;
 }
 
 .salutation {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--brun-fonce);
+  color: var(--bleu-nuit);
   margin-bottom: 4px;
 }
 
 .qualite-badge {
   display: inline-block;
   background: var(--creme-fonce);
-  color: var(--brun);
+  color: var(--or-fonce);
   font-size: 0.85rem;
   padding: 3px 10px;
   border-radius: 999px;
@@ -491,7 +587,7 @@ a {
 .lien-discret {
   background: none;
   border: none;
-  color: var(--texte-doux);
+  color: var(--bleu-encre);
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem;
@@ -506,7 +602,7 @@ a {
 
 /* Pied de page */
 .pied {
-  background: var(--brun-fonce);
+  background: var(--bleu-nuit);
   color: var(--creme-fonce);
   text-align: center;
   padding: 32px 20px;
