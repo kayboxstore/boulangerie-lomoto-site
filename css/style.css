@@ -192,7 +192,7 @@ summary:focus-visible {
   font-size: 14px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--or-fonce);
+  color: var(--or);
 }
 
 .marque-nom {
